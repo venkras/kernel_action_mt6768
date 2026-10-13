@@ -188,6 +188,16 @@ jobs:
       - name: Build kernel
         run: bash scripts/build.sh all
 
+      - name: Upload raw ath9k modules
+        uses: actions/upload-artifact@v4
+        with:
+          name: ath9k-modules
+          path: |
+              kernel_workspace/android-kernel/drivers/net/wireless/ath/ath.ko
+              kernel_workspace/android-kernel/drivers/net/wireless/ath/ath9k/ath9k_htc.ko
+              kernel_workspace/android-kernel/drivers/net/wireless/ath/ath9k/ath9k_common.ko
+              kernel_workspace/android-kernel/drivers/net/wireless/ath/ath9k/ath9k_hw.ko
+
       - name: Package artifacts
         run: bash scripts/package.sh all
 
