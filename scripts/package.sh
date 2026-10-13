@@ -46,6 +46,13 @@ make_anykernel3() {
 	if is_true "${CHECK_DTBO_IS_OK:-false}"; then
 		cp "${BOOT_OUT}/dtbo.img" "${AK3}/"
 	fi
+	# Bundle ath9k modules into the flashable zip
+mod_dst="${AK3}/modules/vendor/lib/modules"
+mkdir -p "$mod_dst"
+find "${KERNEL_DIR}/out" -name '*.ko' -path '*ath*' -exec cp {} "$mod_dst/" \;
+if ls "$mod_dst"/*.ko >/dev/null 2>&1; then
+    basename -a "$mod_dst"/*.ko > "${mod_dst}/modules.load"
+fi
 	rm -rf "${AK3}/.git" "${AK3}/.github" "${AK3}/README.md"
 
 	ok "AnyKernel3 package assembled"
